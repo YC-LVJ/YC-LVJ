@@ -1,0 +1,10 @@
+{
+  "name": "@hydrooj/zshfoj-importer",
+  "packageManager": "yarn@3.2.3",
+  "dependencies": {
+    "axios": "^1.6.2"
+  },
+  "devDependencies": {
+    "@types/axios": "^0.14.0"
+  }
+}

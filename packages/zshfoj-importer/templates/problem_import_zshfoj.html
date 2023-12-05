@@ -1,0 +1,23 @@
+{% extends "layout/basic.html" %}
+{% block content %}
+<div class="row">
+  <div class="medium-9 columns">
+    <div class="section">
+      <div class="section__body">
+        <form method="POST">
+            <input type="text" name="pid">
+            <input type="submit" value="{{ _('Confirm') }}" class="rounded primary button">
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="medium-3 columns">
+    <div class="section side">
+      <div class="section__body typo">
+        <h2>{{ _('What is this?') }}</h2>
+        <p>导入来自 zshfoj.com 的题目，请输入数字 PID。</p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

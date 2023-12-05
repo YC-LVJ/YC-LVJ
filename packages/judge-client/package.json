@@ -1,0 +1,11 @@
+{
+  "name": "@hydrooj/judge-client",
+  "packageManager": "yarn@3.2.3",
+  "devDependencies": {
+    "@types/grecaptcha": "^3.0.7",
+    "@types/node": "^20.9.4"
+  },
+  "dependencies": {
+    "axios": "^1.6.2"
+  }
+}
