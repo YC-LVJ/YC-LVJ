@@ -24,7 +24,11 @@ async function addProblem(domainId: string, pid: string) {
 
 async function run({ maxPid }, report: Function) {
     for (let pid = 1; pid <= maxPid; ++pid) {
-        await addProblem('system', pid.toString());
+        try {
+            await addProblem('system', pid.toString());
+        } catch (e) {
+            console.log(e);
+        }
         await sleep(100);
         if (pid % 100 === 0) report({ message: `OK ${pid} problems.` });
     }
