@@ -43,7 +43,7 @@ export async function apply() {
             next({ status: STATUS.STATUS_JUDGING, message: 'Proudly using LVJ-JudgeClient.' });
             let done = false;
             let tries = 0;
-            while (!done && tries <= 100) {
+            while (!done && tries <= 1000) {
                 await sleep(300);
                 const srdoc = (await client.get(`/judge-server/record?token=${token}&rid=${rid}`)).data;
                 if (judgingStatus.includes(srdoc.status)) {
@@ -60,7 +60,7 @@ export async function apply() {
                 });
                 done = true;
             }
-            if (!done) end({ status: STATUS.STATUS_SYSTEM_ERROR, message: 'Judging timeout exceeded 100s.' });
+            if (!done) end({ status: STATUS.STATUS_SYSTEM_ERROR, message: 'Judging timeout exceeded 300s.' });
             logger.info('Judge finished');
         } catch (e) {
             end({ status: STATUS.STATUS_SYSTEM_ERROR, message: e.message });
