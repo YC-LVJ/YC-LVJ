@@ -40,11 +40,11 @@ export async function apply() {
                 return;
             }
             const rid = data.rid;
-            next({ status: STATUS.STATUS_JUDGING, message: `Costs ${data.cost}, ${data.points}, ID=${rid}.` });
+            next({ status: STATUS.STATUS_JUDGING, message: `ID=${rid}.\n本次评测消耗 ${data.cost} 点，剩余 ${data.points} 点。\n自豪地使用 LVJ JudgeClient 评测。` });
             let done = false;
             let tries = 0;
             while (!done && tries <= 100) {
-                await sleep(1000);
+                await sleep(300);
                 const srdoc = (await client.get(`/judge-server/record?token=${token}&rid=${rid}`)).data;
                 if (judgingStatus.includes(srdoc.status)) {
                     tries++;
