@@ -23,7 +23,7 @@ async function addProblem(domainId: string, pid: string) {
 }
 
 async function run({ maxPid }, report: Function) {
-    for (let pid = 1; pid <= maxPid; ++pid) {
+    for (let pid = await ProblemModel.count('system', {}) + 1; pid <= maxPid; ++pid) {
         try {
             await addProblem('system', pid.toString());
         } catch (e) {
