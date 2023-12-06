@@ -40,7 +40,7 @@ export async function apply() {
                 return;
             }
             const rid = data.rid;
-            next({ status: STATUS.STATUS_JUDGING, message: `ID=${rid}.\n本次评测消耗 ${data.cost} 点，剩余 ${data.points} 点。\n自豪地使用 LVJ JudgeClient 评测。` });
+            next({ status: STATUS.STATUS_JUDGING, message: 'Proudly using LVJ-JudgeClient.' });
             let done = false;
             let tries = 0;
             while (!done && tries <= 100) {
