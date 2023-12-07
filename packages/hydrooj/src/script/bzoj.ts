@@ -1,6 +1,7 @@
 /* eslint-disable no-cond-assign */
 /* eslint-disable no-await-in-loop */
 import fs from 'fs';
+import sanitize from 'sanitize-filename';
 import Schema from 'schemastery';
 import { AdmZip, ProblemModel } from '../plugin-api';
 
@@ -12,7 +13,8 @@ async function run(_, report: Function) {
         const zip = new AdmZip(`/home/ycrrjy/lydsy/${problem}`);
         const entries = zip.getEntries();
         for (const entry of entries) {
-            await ProblemModel.addTestdata('bzoj', npid, entry.name, entry.getData());
+            if (!entry.name) continue;
+            await ProblemModel.addTestdata('bzoj', npid, sanitize(entry.name), entry.getData());
         }
         report({ message: `OK ${pid}.` });
     }
