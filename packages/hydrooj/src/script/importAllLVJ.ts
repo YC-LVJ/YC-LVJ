@@ -3,38 +3,34 @@
 import axios from 'axios';
 import yaml from 'js-yaml';
 import Schema from 'schemastery';
-import { sleep } from '@hydrooj/utils';
+import { fs } from '@hydrooj/utils';
 import ProblemModel from '../model/problem';
-import * as system from '../model/system';
 
-async function addProblem(domainId: string, pid: string) {
-    const token = system.get('judgeserver.token');
-    const { data } = await axios.get(`https://zshfoj.com/judge-server/problem?pid=${pid}&token=${token}`);
-    const npid = await ProblemModel.add(domainId, data.pid, data.title, data.content, 1, data.tags, {
-        difficulty: data.difficulty,
-        hidden: data.hidden,
+async function addProblem(pdoc) {
+    const npid = await ProblemModel.add('system', pdoc.pid, pdoc.title, pdoc.content, 1, pdoc.tags, {
+        difficulty: pdoc.difficulty,
+        hidden: pdoc.hidden,
     });
-    await ProblemModel.addTestdata(domainId, npid, 'config.yaml', Buffer.from(yaml.dump({
+    await ProblemModel.addTestdata('system', npid, 'config.yaml', Buffer.from(yaml.dump({
         type: 'remote_judge',
         subType: 'judgeclient',
-        target: pid.toString(),
-        time: data.config.timeMin || 0,
-        memory: data.config.memoryMin || 0,
+        target: pdoc.docId.toString(),
+        time: pdoc.config.timeMin || 0,
+        memory: pdoc.config.memoryMin || 0,
     })));
 }
 
-async function run({ maxPid }, report: Function) {
-    for (let pid = await ProblemModel.count('system', {}) + 1; pid <= maxPid; ++pid) {
-        try {
-            await addProblem('system', pid.toString());
-        } catch (e) {
-            console.log(e);
-        }
-        if (pid % 1000 === 0) report({ message: `OK ${pid} problems.` });
+async function run({ path }, report: Function) {
+    const problems = JSON.parse(fs.readFileSync(path).toString())['problems'];
+    const tasks = [];
+    for (const pdoc of problems) {
+        tasks.push(addProblem(pdoc));
     }
+    await Promise.all(tasks);
+    return true;
 }
 
 export const apply = (ctx) => ctx.addScript(
     'import_all_lvj', 'Import all problems from LVJ, it may takes a long time!',
-    Schema.object({ maxPid: Schema.number() }), run,
+    Schema.object({ path: Schema.string() }), run,
 );
