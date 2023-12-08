@@ -7,10 +7,16 @@ import { fs } from '@hydrooj/utils';
 import ProblemModel from '../model/problem';
 
 async function addProblem(pdoc) {
-    const npid = await ProblemModel.add('system', pdoc.pid || undefined, pdoc.title, pdoc.content, 1, pdoc.tags, {
+    let npid = await ProblemModel.add('system', pdoc.pid || undefined, pdoc.title, pdoc.content, 1, pdoc.tags, {
         difficulty: pdoc.difficulty,
         hidden: pdoc.hidden,
     });
+    while (npid !== pdoc.docId) {
+        npid = await ProblemModel.add('system', pdoc.pid || undefined, pdoc.title, pdoc.content, 1, pdoc.tags, {
+            difficulty: pdoc.difficulty,
+            hidden: pdoc.hidden,
+        });
+    }
     await ProblemModel.addTestdata('system', npid, 'config.yaml', Buffer.from(yaml.dump({
         type: 'remote_judge',
         subType: 'judgeclient',
