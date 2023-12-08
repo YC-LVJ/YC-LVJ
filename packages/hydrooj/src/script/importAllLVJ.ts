@@ -12,6 +12,7 @@ async function addProblem(domainId: string, pid: string) {
     const { data } = await axios.get(`https://zshfoj.com/judge-server/problem?pid=${pid}&token=${token}`);
     const npid = await ProblemModel.add(domainId, data.pid, data.title, data.content, 1, data.tags, {
         difficulty: data.difficulty,
+        hidden: data.hidden,
     });
     await ProblemModel.addTestdata(domainId, npid, 'config.yaml', Buffer.from(yaml.dump({
         type: 'remote_judge',
@@ -29,8 +30,7 @@ async function run({ maxPid }, report: Function) {
         } catch (e) {
             console.log(e);
         }
-        await sleep(100);
-        if (pid % 100 === 0) report({ message: `OK ${pid} problems.` });
+        if (pid % 1000 === 0) report({ message: `OK ${pid} problems.` });
     }
 }
 
