@@ -23,6 +23,7 @@ async function addProblem(pdoc) {
 async function run({ path }, report: Function) {
     const problems = JSON.parse(fs.readFileSync(path).toString())['problems'];
     const tasks = [];
+    problems.sort((a, b) => a.docId - b.docId);
     for (const pdoc of problems) {
         await addProblem(pdoc);
     }
