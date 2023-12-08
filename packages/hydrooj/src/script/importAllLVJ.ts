@@ -15,8 +15,8 @@ async function addProblem(pdoc) {
         type: 'remote_judge',
         subType: 'judgeclient',
         target: pdoc.docId.toString(),
-        time: pdoc?.config.timeMin || 0,
-        memory: pdoc?.config.memoryMin || 0,
+        time: pdoc?.config?.timeMin || 0,
+        memory: pdoc?.config?.memoryMin || 0,
     })));
 }
 
