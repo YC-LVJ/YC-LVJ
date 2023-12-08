@@ -24,9 +24,8 @@ async function run({ path }, report: Function) {
     const problems = JSON.parse(fs.readFileSync(path).toString())['problems'];
     const tasks = [];
     for (const pdoc of problems) {
-        tasks.push(addProblem(pdoc));
+        await addProblem(pdoc);
     }
-    await Promise.all(tasks);
     return true;
 }
 
