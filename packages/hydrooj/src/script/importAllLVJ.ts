@@ -7,7 +7,7 @@ import { fs } from '@hydrooj/utils';
 import ProblemModel from '../model/problem';
 
 async function addProblem(pdoc) {
-    const npid = await ProblemModel.add('system', pdoc.pid, pdoc.title, pdoc.content, 1, pdoc.tags, {
+    const npid = await ProblemModel.add('system', pdoc.pid || undefined, pdoc.title, pdoc.content, 1, pdoc.tags, {
         difficulty: pdoc.difficulty,
         hidden: pdoc.hidden,
     });
