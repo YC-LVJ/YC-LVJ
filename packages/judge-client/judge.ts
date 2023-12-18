@@ -19,8 +19,12 @@ export async function apply() {
         logger.info(`Start judging ${task.rid}`);
         const rdoc = await RecordModel.get(task.domainId, task.rid);
         task = Object.assign(rdoc, task);
-        const next = (payload) => JudgeHandler.next({ ...payload, rid: task.rid, rdoc });
-        const end = (payload) => JudgeHandler.end({ ...payload, rid: task.rid, rdoc });
+        const next = (payload) => JudgeHandler.next({
+            ...payload, rid: task.rid, rdoc, domainId: task.domainId,
+        });
+        const end = (payload) => JudgeHandler.end({
+            ...payload, rid: task.rid, rdoc, domainId: task.domainId,
+        });
         const client = axios.create({
             headers: {
                 Accept: 'application/json',
