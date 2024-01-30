@@ -17,7 +17,7 @@ async function addProblem(pdoc) {
             hidden: pdoc.hidden,
         });
     }
-    const pconfig = pdoc.config ? JSON.parse(pdoc.config) : {};
+    const pconfig: any = pdoc.config ? yaml.load(pdoc.config) : {};
     await ProblemModel.addTestdata('system', npid, 'config.yaml', Buffer.from(yaml.dump({
         type: 'remote_judge',
         subType: 'judgeclient',
