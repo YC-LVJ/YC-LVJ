@@ -17,12 +17,13 @@ async function addProblem(pdoc) {
             hidden: pdoc.hidden,
         });
     }
+    const pconfig = pdoc.config ? JSON.parse(pdoc.config) : {};
     await ProblemModel.addTestdata('system', npid, 'config.yaml', Buffer.from(yaml.dump({
         type: 'remote_judge',
         subType: 'judgeclient',
         target: pdoc.docId.toString(),
-        time: pdoc?.config?.time || 0,
-        memory: pdoc?.config?.memory || 0,
+        time: pconfig?.time || 0,
+        memory: pconfig?.memory || 0,
     })));
 }
 
