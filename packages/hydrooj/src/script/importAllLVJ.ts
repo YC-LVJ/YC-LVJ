@@ -1,6 +1,4 @@
-/* eslint-disable no-cond-assign */
 /* eslint-disable no-await-in-loop */
-import axios from 'axios';
 import yaml from 'js-yaml';
 import Schema from 'schemastery';
 import { fs } from '@hydrooj/utils';
@@ -23,14 +21,13 @@ async function addProblem(pdoc) {
         type: 'remote_judge',
         subType: 'judgeclient',
         target: pdoc.docId.toString(),
-        time: pdoc?.config?.timeMin || 0,
-        memory: pdoc?.config?.memoryMin || 0,
+        time: pdoc?.config?.time || 0,
+        memory: pdoc?.config?.memory || 0,
     })));
 }
 
 async function run({ path }, report: Function) {
     const problems = JSON.parse(fs.readFileSync(path).toString())['problems'];
-    const tasks = [];
     problems.sort((a, b) => a.docId - b.docId);
     for (const pdoc of problems) {
         await addProblem(pdoc);
