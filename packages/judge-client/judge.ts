@@ -32,7 +32,7 @@ export async function apply() {
             baseURL: host,
         });
         await next({ status: STATUS.STATUS_FETCHED });
-        try {
+        async function fetchResult() {
             const { data } = await client.post('/judge-server/judge', {
                 token,
                 pid: task.target,
@@ -66,6 +66,11 @@ export async function apply() {
             }
             if (!done) end({ status: STATUS.STATUS_SYSTEM_ERROR, message: 'Judging timeout exceeded 300s.' });
             logger.info('Judge finished');
+        }
+        try {
+            fetchResult().then(() => {
+                logger.info(`End judging ${task.rid}`);
+            });
         } catch (e) {
             end({ status: STATUS.STATUS_SYSTEM_ERROR, message: e.message });
         }
