@@ -137,7 +137,7 @@
                     </td>
                     <td class="col--tried">{{ pdoc.nSubmit }}</td>
                     <td class="col--ac">{{ pdoc.nAccept }}</td>
-                    {% set _lv = pdoc['difficulty'] or lib.difficulty(pdoc.nSubmit, pdoc.nAccept) or 0 %}
+                    {% set _lv = pdoc['difficulty'] or 0 %}
                     <td class="col--difficulty" style="color: {{ difficultyColor(_lv) }}">{{ difficultyLabelShort(_lv) }}</td>
                   </tr>
                 {% else %}

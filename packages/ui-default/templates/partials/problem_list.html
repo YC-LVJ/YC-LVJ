@@ -68,7 +68,7 @@
           {{ problem.render_problem_title(pdoc) }}
         </td>
         <td class="col--ac-tried">{{ pdoc.nAccept }} / {{ pdoc.nSubmit }}</td>
-        {% set _lv = pdoc['difficulty'] or lib.difficulty(pdoc.nSubmit, pdoc.nAccept) or 0 %}
+        {% set _lv = pdoc['difficulty'] or 0 %}
         <td class="col--difficulty" style="color: {{ difficultyColor(_lv) }}">{{ difficultyLabelShort(_lv) }}</td>
       </tr>
     {%- endfor -%}
