@@ -65,6 +65,10 @@
       </div>
       <div class="section__body">
         <ul class="problem__tags">
+          {# difficulty first #}
+          <span class="bp5-tag bp5-large bp5-minimal problem__tag-item" style="color: {{ difficultyColor(pdoc['difficulty'] or lib.difficulty(pdoc.nSubmit, pdoc.nAccept) or 0) }}">
+            {{ _('Difficulty') }}: {{ difficultyLabel(pdoc['difficulty'] or lib.difficulty(pdoc.nSubmit, pdoc.nAccept) or 0) }}
+          </span>
           {% if not tdoc %}
             <span class="bp5-tag bp5-large bp5-minimal problem__tag-item">{{ _('ID') }}: {{ pdoc.docId }}</span>
           {% endif %}
@@ -79,7 +83,6 @@
           {% if not tdoc %}
             <a class="bp5-tag bp5-large bp5-minimal bp5-interactive problem__tag-item" href="{{ url('record_main', query={pid:pdoc.docId}) }}">{{ _('Tried') }}: {{ pdoc.nSubmit }}</a>
             <a class="bp5-tag bp5-large bp5-minimal bp5-interactive problem__tag-item" href="{{ url('record_main', query={pid:pdoc.docId, status:1}) }}">{{ _('Accepted') }}: {{ pdoc.nAccept if ((not tdoc) or showAccept) else '?' }}</a>
-            <span class="bp5-tag bp5-large bp5-minimal problem__tag-item">{{ _('Difficulty') }}: {{ pdoc['difficulty'] or lib.difficulty(pdoc.nSubmit, pdoc.nAccept) or _('(None)') }}</span>
             <span class="bp5-tag bp5-large bp5-minimal bp5-interactive problem__tag-item">{{ _('Uploaded By') }}: {{ user.render_inline(udoc, badge=false) }}</span>
           {% endif %}
           {% if pdoc.tag.length %}
