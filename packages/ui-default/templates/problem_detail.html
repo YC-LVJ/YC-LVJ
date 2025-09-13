@@ -65,11 +65,10 @@
       </div>
       <div class="section__body">
         <ul class="problem__tags">
-          {# difficulty first #}
-          <span class="bp5-tag bp5-large bp5-minimal problem__tag-item" style="color: {{ difficultyColor(pdoc['difficulty'] or 0) }}">
-            {{ _('Difficulty') }}: {{ difficultyLabel(pdoc['difficulty'] or 0) }}
-          </span>
           {% if not tdoc %}
+            <span class="bp5-tag bp5-large problem__tag-item problem__tag-item--difficulty" style="background-color: {{ difficultyColor(pdoc['difficulty'] or 0) }}; color: #fff; font-weight: 700; box-shadow: 0 0 8px {{ difficultyColor(pdoc['difficulty'] or 0) }}, 0 0 16px {{ difficultyColor(pdoc['difficulty'] or 0) }};">
+              {{ difficultyLabel(pdoc['difficulty'] or 0) }}
+            </span>
             <span class="bp5-tag bp5-large bp5-minimal problem__tag-item">{{ _('ID') }}: {{ pdoc.docId }}</span>
           {% endif %}
           <span class="bp5-tag bp5-large bp5-minimal problem__tag-item icon icon-book">{{ _('problem_type.' + pdoc.config.type).format(pdoc.config.subType) }}</span>
