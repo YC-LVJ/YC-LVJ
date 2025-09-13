@@ -1,7 +1,7 @@
 /* eslint-disable no-await-in-loop */
 import axios from 'axios';
 import {
-    Context, Handler, param, PERM, PermissionError, ProblemAlreadyExistError, ProblemModel, SystemModel, Types, yaml,
+    Context, Handler, param, PERM, PermissionError, ProblemModel, SystemModel, Types, yaml,
 } from 'hydrooj';
 
 declare module 'hydrooj' {
@@ -15,8 +15,8 @@ class ZSHFOJImportHandler extends Handler {
         this.response.template = 'problem_import_zshfoj.html';
     }
 
-    @param('pid', Types.Int)
-    async post(domainId: string, pid: number) {
+    @param('pid', Types.String)
+    async post(domainId: string, pid: string) {
         const token = SystemModel.get('judgeserver.token');
         if (!token) throw new PermissionError();
         const { data } = await axios.get(`https://zshfoj.com/judge-server/problem?pid=${pid}&token=${token}`);
