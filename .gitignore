@@ -61,3 +61,6 @@ __*
 
 # Monokle
 .monokle
+
+# Claude code
+.claude

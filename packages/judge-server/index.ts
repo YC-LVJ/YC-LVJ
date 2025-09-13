@@ -1,7 +1,13 @@
 import {
-    Context, Handler, ObjectId, param, ProblemModel, RecordModel, Types,
+    Context, Handler, ObjectId, param, ProblemModel, RecordModel, SystemModel, Types,
 } from 'hydrooj';
 import * as setting from 'hydrooj/src/model/setting';
+
+declare module 'hydrooj' {
+    interface SystemKeys {
+        'judgeserver.auth_token': string
+    }
+}
 
 class JudgeServerSubmitHandler extends Handler {
     @param('pid', Types.Int)
@@ -9,7 +15,8 @@ class JudgeServerSubmitHandler extends Handler {
     @param('code', Types.String)
     @param('token', Types.String)
     async post(domainId: string, pid: string, language: string, code: string, token: string) {
-        if (token !== '659f15fa-d8c5-4f62-bd2c-2b5d98ff1e05') {
+        const authToken = SystemModel.get('judgeserver.auth_token');
+        if (!authToken || token !== authToken) {
             this.response.body = {
                 success: false,
                 message: 'Judge token not found.',
@@ -67,7 +74,8 @@ class JudgeResultHandler extends Handler {
             };
             return;
         }
-        if (token !== '659f15fa-d8c5-4f62-bd2c-2b5d98ff1e05') {
+        const authToken = SystemModel.get('judgeserver.auth_token');
+        if (!authToken || token !== authToken) {
             this.response.body = {
                 success: false,
                 message: 'Record not found.',
@@ -85,14 +93,8 @@ class ProblemDetailHandler extends Handler {
     @param('pid', Types.Int)
     @param('token', Types.String)
     async get(domainId: string, pid: string, token: string) {
-        if (!token) {
-            this.response.body = {
-                success: false,
-                message: 'Judge token not found.',
-            };
-            return;
-        }
-        if (token !== '659f15fa-d8c5-4f62-bd2c-2b5d98ff1e05') {
+        const authToken = SystemModel.get('judgeserver.auth_token');
+        if (!authToken || token !== authToken) {
             this.response.body = {
                 success: false,
                 message: 'Judge token not found.',
