@@ -5,26 +5,36 @@
     <div class="section">
       <div class="section__body">
         <form method="POST">
-            <div class="form-group">
-                <label for="oj" class="form-label">远端 OJ</label>
-                <select id="oj" name="oj" class="form-control">
-                    <option value="CF">Codeforces</option>
-                    <option value="LG">洛谷</option>
-                    <option value="LGB">洛谷入门</option>
-                    <option value="HDU">HDU</option>
-                    <option value="LOOJ">LOJ</option>
-                    <option value="POJ">POJ</option>
-                    <option value="UOJ">UOJ</option>
-                    <option value="UVA">UVA</option>
-                    <option value="YBT">YBT</option>
-                    <option value="YBTBAS">YBT启蒙</option>
-                </select>
+            <div class="row">
+                <div class="medium-12 columns form__item">
+                    <label for="oj">远端 OJ</label>
+                    <div class="select-container">
+                        <select id="oj" name="oj" class="select">
+                            <option value="CF">Codeforces</option>
+                            <option value="LG">洛谷</option>
+                            <option value="LGB">洛谷入门</option>
+                            <option value="HDU">HDU</option>
+                            <option value="LOOJ">LOJ</option>
+                            <option value="POJ">POJ</option>
+                            <option value="UOJ">UOJ</option>
+                            <option value="UVA">UVA</option>
+                            <option value="YBT">YBT</option>
+                            <option value="YBTBAS">YBT启蒙</option>
+                        </select>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="pid" class="form-label">题号</label>
-                <input type="text" id="pid" name="pid" class="form-control" placeholder="请输入题号（数字或字母）">
+            <div class="row">
+                <div class="medium-12 columns form__item">
+                    <label for="pid">题号</label>
+                    <input type="text" id="pid" name="pid" class="textbox" placeholder="请输入题号（数字或字母）">
+                </div>
             </div>
-            <input type="submit" value="{{ _('Confirm') }}" class="rounded primary button">
+            <div class="row">
+                <div class="medium-12 columns">
+                    <button type="submit" class="primary rounded button">{{ _('Confirm') }}</button>
+                </div>
+            </div>
         </form>
       </div>
     </div>
