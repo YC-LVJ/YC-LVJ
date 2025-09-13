@@ -15,18 +15,20 @@ class ZSHFOJImportHandler extends Handler {
         this.response.template = 'problem_import_zshfoj.html';
     }
 
+    @param('oj', Types.String)
     @param('pid', Types.String)
-    async post(domainId: string, pid: string) {
+    async post(domainId: string, oj: string, pid: string) {
         const token = SystemModel.get('judgeserver.token');
         if (!token) throw new PermissionError();
-        const { data } = await axios.get(`https://zshfoj.com/judge-server/problem?pid=${pid}&token=${token}`);
+        const target = `${oj}${pid}`;
+        const { data } = await axios.get(`https://zshfoj.com/judge-server/problem?pid=${target}&token=${token}`);
         const npid = await ProblemModel.add(domainId, data.pid, data.title, data.content, this.user._id, data.tags, {
             difficulty: data.difficulty,
         });
         await ProblemModel.addTestdata(domainId, npid, 'config.yaml', Buffer.from(yaml.dump({
             type: 'remote_judge',
             subType: 'judgeclient',
-            target: pid.toString(),
+            target,
             time: data.config.timeMin || 0,
             memory: data.config.memoryMin || 0,
         })));

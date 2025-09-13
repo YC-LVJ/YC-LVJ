@@ -5,7 +5,25 @@
     <div class="section">
       <div class="section__body">
         <form method="POST">
-            <input type="text" name="pid">
+            <div class="form-group">
+                <label for="oj" class="form-label">远端 OJ</label>
+                <select id="oj" name="oj" class="form-control">
+                    <option value="CF">Codeforces</option>
+                    <option value="LG">洛谷</option>
+                    <option value="LGB">洛谷入门</option>
+                    <option value="HDU">HDU</option>
+                    <option value="LOOJ">LOJ</option>
+                    <option value="POJ">POJ</option>
+                    <option value="UOJ">UOJ</option>
+                    <option value="UVA">UVA</option>
+                    <option value="YBT">YBT</option>
+                    <option value="YBTBAS">YBT启蒙</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="pid" class="form-label">题号</label>
+                <input type="text" id="pid" name="pid" class="form-control" placeholder="请输入题号（数字或字母）">
+            </div>
             <input type="submit" value="{{ _('Confirm') }}" class="rounded primary button">
         </form>
       </div>
@@ -15,7 +33,19 @@
     <div class="section side">
       <div class="section__body typo">
         <h2>{{ _('What is this?') }}</h2>
-        <p>导入来自 zshfoj.com 的题目，请输入数字 PID。</p>
+        <p>从支持的远端 OJ 导入题目。请选择 OJ 并输入对应题号。</p>
+        <ul>
+            <li><strong>Codeforces (CF)</strong>: 如 1712A</li>
+            <li><strong>洛谷 (LG)</strong>: 如 1001</li>
+            <li><strong>洛谷入门 (LGB)</strong>: 如 3641</li>
+            <li><strong>HDU</strong>: 如 1000</li>
+            <li><strong>LOJ</strong>: 如 100</li>
+            <li><strong>POJ</strong>: 如 1000</li>
+            <li><strong>UOJ</strong>: 如 1</li>
+            <li><strong>UVA</strong>: 如 100</li>
+            <li><strong>YBT</strong>: 如 1001</li>
+            <li><strong>YBT启蒙 (YBTBAS)</strong>: 如 501</li>
+        </ul>
       </div>
     </div>
   </div>
