@@ -22,6 +22,13 @@ class ZSHFOJImportHandler extends Handler {
         if (!token) throw new PermissionError();
         const target = `${oj}${pid}`;
         const { data } = await axios.get(`https://zshfoj.com/judge-server/problem?pid=${target}&token=${token}`);
+
+        const existingProblem = await ProblemModel.get(domainId, data.pid);
+        if (existingProblem) {
+            this.response.redirect = `/p/${data.pid}`;
+            return;
+        }
+
         const npid = await ProblemModel.add(domainId, data.pid, data.title, data.content, this.user._id, data.tags, {
             difficulty: data.difficulty,
         });
