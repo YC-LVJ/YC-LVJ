@@ -762,7 +762,6 @@ export interface ProblemSearchOptions {
 export type ProblemSearch = (domainId: string, q: string, options?: ProblemSearchOptions) => Promise<ProblemSearchResponse>;
 
 export interface Lib extends Record<string, any> {
-    difficulty: typeof import('./lib/difficulty');
     buildContent: typeof import('./lib/content').buildContent;
     mail: typeof import('./lib/mail');
     rank: typeof import('./lib/rank');

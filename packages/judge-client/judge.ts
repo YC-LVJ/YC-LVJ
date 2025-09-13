@@ -1,5 +1,5 @@
 /* eslint-disable no-await-in-loop */
-import axios from "axios";
+import axios from 'axios';
 import {
     JudgeHandler,
     RecordModel,
@@ -7,10 +7,10 @@ import {
     STATUS,
     SystemModel,
     TaskModel,
-} from "hydrooj";
-import { Logger } from "hydrooj/src/logger";
+} from 'hydrooj';
+import { Logger } from 'hydrooj/src/logger';
 
-const logger = new Logger("judge-client");
+const logger = new Logger('judge-client');
 const judgingStatus = [
     STATUS.STATUS_FETCHED,
     STATUS.STATUS_COMPILING,
@@ -19,11 +19,11 @@ const judgingStatus = [
 ];
 
 export async function apply() {
-    if (process.env.NODE_APP_INSTANCE !== "0") return;
+    if (process.env.NODE_APP_INSTANCE !== '0') return;
     if (process.env.HYDRO_CLI) return;
 
-    const host = "https://lvjcn.tboj.cn/";
-    const token = SystemModel.get("judgeserver.token");
+    const host = 'https://lvjcn.tboj.cn/';
+    const token = SystemModel.get('judgeserver.token');
 
     async function judge(task) {
         logger.info(`Start judging ${task.rid}`);
@@ -45,7 +45,7 @@ export async function apply() {
             });
         const client = axios.create({
             headers: {
-                Accept: "application/json",
+                Accept: 'application/json',
             },
             baseURL: host,
         });
@@ -55,11 +55,11 @@ export async function apply() {
             let data: any = null;
             while (submitRetries > 0) {
                 try {
-                    const _ = await client.post("/judge-server/judge", {
+                    const _ = await client.post('/judge-server/judge', {
                         token,
                         pid: task.target,
                         code: encodeURI(task.code),
-                        language: "cc.cc14o2",
+                        language: 'cc.cc14o2',
                     });
                     data = _.data;
                     break;
@@ -91,7 +91,7 @@ export async function apply() {
                         if (queryFailed > 3) {
                             end({
                                 status: STATUS.STATUS_SYSTEM_ERROR,
-                                message: "Failed to get judge result from server.",
+                                message: 'Failed to get judge result from server.',
                             });
                             return;
                         }
@@ -112,12 +112,13 @@ export async function apply() {
                 });
                 done = true;
             }
-            if (!done)
+            if (!done) {
                 end({
                     status: STATUS.STATUS_SYSTEM_ERROR,
-                    message: "Judging timeout exceeded 300s.",
+                    message: 'Judging timeout exceeded 300s.',
                 });
-            logger.info("Judge finished");
+            }
+            logger.info('Judge finished');
         }
         fetchResult().catch((error) => {
             end({ status: STATUS.STATUS_SYSTEM_ERROR, message: error.message });
@@ -126,9 +127,9 @@ export async function apply() {
         });
     }
     TaskModel.consume(
-        { type: "remotejudge", subType: "judgeclient" },
+        { type: 'remotejudge', subType: 'judgeclient' },
         judge,
-        false
+        false,
     );
-    logger.info("Judge client is now running!");
+    logger.info('Judge client is now running!');
 }

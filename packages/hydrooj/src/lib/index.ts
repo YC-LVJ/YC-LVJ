@@ -5,6 +5,5 @@ import './hash.hydro';
 import './rank';
 import './ui';
 import './testdataConfig';
-import './difficulty';
 import './content';
 import './avatar';
